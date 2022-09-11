@@ -1,23 +1,29 @@
 import type { Settings } from "./index";
 import { populate, lifeCycle, Individual } from "./utils";
-type AllPopulation = { [generation:number]: Individual[] }
+type AllPopulations = Array<Individual[]>;
+
 let generation = 1;
-function algorithm(settings: Settings, population: Individual[]): AllPopulation  {
-  const nextPopulation = lifeCycle(settings)(population);
+function algorithm(
+  settings: Settings,
+  allPopulations: AllPopulations
+): AllPopulations {
+  const latPopulation = allPopulations[allPopulations.length - 1];
+  const nextPopulation = lifeCycle(settings)(latPopulation || []);
   ++generation;
-  const allPopulations = {}
-  console.log("generation",
-  generation);
+  console.log("generation", generation);
+  allPopulations.push(nextPopulation);
   if (
     settings.populationFitness(nextPopulation) ||
     generation >= settings.maxGeneration
   ) {
-    return ({...allPopulations, [generation]: nextPopulation});
+    return allPopulations;
   } else {
-    return algorithm(settings, nextPopulation);
+    return algorithm(settings, allPopulations);
   }
 }
 
 export function start(settings: Settings) {
-  return algorithm(settings, populate(settings));
+  const allPopulations: AllPopulations = [];
+  allPopulations.push(populate(settings));
+  return algorithm(settings, allPopulations);
 }

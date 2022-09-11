@@ -43,8 +43,8 @@ const settings: Settings = {
 };
 const App = () => {
   const handleClick = () => {
-    const AllPopulation = start(settings);
-    console.log("population", AllPopulation);
+    const AllPopulations = start(settings);
+    console.log("population", AllPopulations);
   };
   return (
     <div className="App">
