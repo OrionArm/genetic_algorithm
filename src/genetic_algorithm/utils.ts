@@ -34,7 +34,7 @@ export const formIndividual = (
   settings: Settings,
   dna: Chromosome[]
 ): Individual => {
-  const fitness = settings.individualFitness(dna);
+  const fitness = settings.individualAdaptability(dna);
   return { dna, fitness };
 };
 // создать особь

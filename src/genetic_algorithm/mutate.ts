@@ -16,7 +16,7 @@ const mutateDNA = (dna: Chromosome[]) => {
 
 const mutateIndividual = (settings: Settings, individual: Individual) => {
   const dna = mutateDNA(individual.dna);
-  const fitness = settings.individualFitness(dna);
+  const fitness = settings.individualAdaptability(dna);
   return { dna, fitness };
 };
 
