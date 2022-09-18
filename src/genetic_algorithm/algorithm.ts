@@ -1,6 +1,6 @@
 import type { Settings } from "./index";
 import { populate, lifeCycle, Individual } from "./utils";
-type AllPopulations = Array<Individual[]>;
+export type AllPopulations = Array<Individual[]>;
 
 let generation = 1;
 function algorithm(
