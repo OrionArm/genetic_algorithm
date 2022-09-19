@@ -1,12 +1,12 @@
 import type { Chromosome, Individual, Settings } from "./genetic_algorithm";
 
 export const getPopulationAdaptability = (population: Individual[] = []) =>
-  population.reduce((acc, individual) => acc + individual.fitness, 1);
+  population.reduce((acc, individual) => acc + individual.adaptability, 1);
 
 const stopEvolution = (population: Individual[] = []) => {
-  const averageFitness =
+  const averageAdaptability =
     getPopulationAdaptability(population) / population.length;
-  if (averageFitness > 1) return true;
+  if (averageAdaptability > 1) return true;
   return false;
 };
 const individualAdaptability = (dna: Chromosome[]): number =>

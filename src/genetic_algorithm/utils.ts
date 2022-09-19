@@ -28,14 +28,14 @@ const createIndividualDNA = (n: number): Chromosome[] =>
 // сформировать особь
 export type Individual = {
   dna: Chromosome[];
-  fitness: number;
+  adaptability: number;
 };
 export const formIndividual = (
   settings: Settings,
   dna: Chromosome[]
 ): Individual => {
-  const fitness = settings.individualAdaptability(dna);
-  return { dna, fitness };
+  const adaptability = settings.individualAdaptability(dna);
+  return { dna, adaptability };
 };
 // создать особь
 const createIndividual = (settings: Settings) => {

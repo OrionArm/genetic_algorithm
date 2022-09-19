@@ -14,10 +14,13 @@ const mutateDNA = (dna: Chromosome[]) => {
   return mutatedDNA;
 };
 
-const mutateIndividual = (settings: Settings, individual: Individual) => {
+const mutateIndividual = (
+  settings: Settings,
+  individual: Individual
+): Individual => {
   const dna = mutateDNA(individual.dna);
-  const fitness = settings.individualAdaptability(dna);
-  return { dna, fitness };
+  const adaptability = settings.individualAdaptability(dna);
+  return { dna, adaptability };
 };
 
 export const mutatePopulation = curry(

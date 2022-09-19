@@ -11,7 +11,7 @@ import { getPopulationAdaptability, settings } from "./config";
 
 const generateData = (population: Individual[], populationNumber: number) => ({
   populationNumber,
-  fitness: getPopulationAdaptability(population),
+  adaptability: getPopulationAdaptability(population),
 });
 
 const getPopulationData = (
@@ -22,7 +22,7 @@ const getPopulationData = (
   if (population) {
     return population.map((individual: Individual, id) => ({
       id: String(id),
-      n: individual.fitness,
+      n: individual.adaptability,
       k: 2,
     }));
   }

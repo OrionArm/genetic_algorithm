@@ -6,7 +6,7 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 type Props = {
   paddingRight: number;
-  data: { populationNumber: number; fitness: number }[];
+  data: { populationNumber: number; adaptability: number }[];
 };
 export const Chart = ({ paddingRight, data }: Props) => {
   const chartRef = useRef<am5xy.XYChart | null>(null);
@@ -70,7 +70,7 @@ export const Chart = ({ paddingRight, data }: Props) => {
         calculateAggregates: true,
         xAxis: xAxis,
         yAxis: yAxis,
-        valueYField: "fitness",
+        valueYField: "adaptability",
         valueXField: "populationNumber",
         tooltip: am5.Tooltip.new(root, {
           labelText: "{valueY}",
