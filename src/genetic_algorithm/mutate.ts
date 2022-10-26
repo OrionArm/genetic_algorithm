@@ -19,8 +19,8 @@ const mutateIndividual = (
   individual: Individual
 ): Individual => {
   const dna = mutateDNA(individual.dna);
-  const adaptability = settings.individualAdaptability(dna);
-  return { dna, adaptability };
+  const params = settings.setParams(dna);
+  return { dna, params };
 };
 
 export const mutatePopulation = curry(

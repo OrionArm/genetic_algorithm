@@ -7,7 +7,7 @@ export const reductionPopulation = curry(
     // console.log("reduction", data);
     const sortedPopulation = population.sort(
       (individual1, individual2) =>
-        individual1.adaptability - individual2.adaptability
+        individual1.params.adaptability - individual2.params.adaptability
     );
 
     return sortedPopulation;

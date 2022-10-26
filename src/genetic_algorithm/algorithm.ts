@@ -1,14 +1,16 @@
 import type { Settings } from "./index";
-import { populate, lifeCycle, Individual } from "./utils";
-export type AllPopulations = Array<Individual[]>;
+import { populate, lifeCycle, Individual, CommonParams } from "./utils";
+export type AllPopulations<T extends CommonParams> = Array<Individual<T>[]>;
 
 let generation = 0;
-function algorithm(
-  settings: Settings,
-  allPopulations: AllPopulations
-): AllPopulations {
+function algorithm<T extends CommonParams>(
+  settings: Settings<T>,
+  allPopulations: AllPopulations<T>
+): AllPopulations<T> {
   const latPopulation = allPopulations[allPopulations.length - 1];
-  const nextPopulation = lifeCycle(settings)(latPopulation || []);
+  const nextPopulation = lifeCycle<T>(settings)(
+    latPopulation || []
+  ) as Individual<T>[];
   ++generation;
 
   if (
@@ -24,7 +26,7 @@ function algorithm(
   }
 }
 
-export function start(settings: Settings) {
-  const allPopulations: AllPopulations = [populate(settings)];
+export function start<T extends CommonParams>(settings: Settings<T>) {
+  const allPopulations: AllPopulations<T> = [populate(settings)];
   return algorithm(settings, allPopulations);
 }

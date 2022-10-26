@@ -7,10 +7,12 @@ import {
   Typography,
 } from "@mui/material";
 import React from "react";
+import type { Chromosome } from "../genetic_algorithm";
+
 type RowData = {
   id: string;
-  n: number;
-  k: number;
+  dna: Chromosome[];
+  psl: number;
 };
 type Props = {
   rows: RowData[];
@@ -24,7 +26,7 @@ export const TablePopulation = ({ rows = [], title }: Props) => (
     <Table sx={{ minWidth: 450, maxWidth: 450 }} size="small" stickyHeader>
       <TableHead>
         <TableRow>
-          <TableCell>Номер особи в популяции</TableCell>
+          <TableCell>Номер особи</TableCell>
           <TableCell align="right">КП</TableCell>
           <TableCell align="right">Значение PSL</TableCell>
         </TableRow>
@@ -36,8 +38,10 @@ export const TablePopulation = ({ rows = [], title }: Props) => (
             sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
           >
             <TableCell component="th">{row.id}</TableCell>
-            <TableCell align="right">{row.n}</TableCell>
-            <TableCell align="right">{row.k}</TableCell>
+            <TableCell align="right">
+              {row.dna.map((chromosome) => chromosome)}
+            </TableCell>
+            <TableCell align="right">{row.psl}</TableCell>
           </TableRow>
         ))}
       </TableBody>

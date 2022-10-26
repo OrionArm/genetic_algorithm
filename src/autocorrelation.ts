@@ -45,7 +45,7 @@ const calculateSum = (
   return result;
 };
 // Значения АКФ
-const getAutocorrelationData = (dna: Chromosome[] = []) => {
+export const getAutocorrelationData = (dna: Chromosome[] = []) => {
   const reversedList = [...dna].reverse();
   const neededLen = dna.length * 2 - 1;
   const neededNullsCount = neededLen - dna.length;
@@ -56,12 +56,7 @@ const getAutocorrelationData = (dna: Chromosome[] = []) => {
 };
 
 // Максимальный уровень боковых лепестков
-const getPSL = (autocorrelationData: number[] = []) => {
+export const getPSL = (autocorrelationData: number[] = []) => {
   const [_first, second] = autocorrelationData.sort().reverse();
-  return second;
-};
-
-export const calculatePSL = (dna: Chromosome[] = []) => {
-  const autocorrelationData = getAutocorrelationData(dna);
-  return getPSL(autocorrelationData);
+  return second || 0;
 };

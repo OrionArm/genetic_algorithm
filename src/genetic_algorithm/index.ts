@@ -1,5 +1,5 @@
-import type { Chromosome, Individual } from "./utils";
-export type Settings = {
+import type { Chromosome, Individual, CommonParams } from "./utils";
+export type Settings<T extends CommonParams = CommonParams> = {
   n: number; // длина КП
   p: number; // размер начальной популяции
   psl: number; // допустимый максимальный уровень положительных боковых лепестков АКФ
@@ -8,9 +8,9 @@ export type Settings = {
   pm: number; // вероятность мутации
   wayOfFormingParentPairs: string; // способ формирования родительских пар
   selectionMethod: string; // способ селекция
+  maxGeneration: number; // максимально допустимое число популяций
   stopEvolution: (population: Individual[]) => boolean;
-  individualAdaptability: (dna: Chromosome[]) => number;
-  maxGeneration: number;
+  setParams: (dna: Chromosome[]) => T;
 };
 
 export { start } from "./algorithm";

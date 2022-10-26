@@ -7,7 +7,11 @@ import { Chart } from "./components/chart";
 import { TablePopulation } from "./components/table_population";
 import { start, Individual } from "./genetic_algorithm";
 import type { AllPopulations } from "./genetic_algorithm/algorithm";
-import { getPopulationAdaptability, settings } from "./config";
+import {
+  getPopulationAdaptability,
+  IndividualParams,
+  settings,
+} from "./config";
 
 const generateData = (population: Individual[], populationNumber: number) => ({
   populationNumber,
@@ -15,15 +19,15 @@ const generateData = (population: Individual[], populationNumber: number) => ({
 });
 
 const getPopulationData = (
-  allPopulations: AllPopulations,
+  allPopulations: AllPopulations<IndividualParams>,
   populationNumber: number
 ) => {
   const population = allPopulations[populationNumber];
   if (population) {
-    return population.map((individual: Individual, id) => ({
+    return population.map((individual, id) => ({
       id: String(id),
-      n: individual.adaptability,
-      k: 2,
+      dna: individual.dna,
+      psl: individual.params.psl,
     }));
   }
   return undefined;
@@ -34,7 +38,9 @@ const StartButton = styled(Button)`
 `;
 
 const App = () => {
-  const [allPopulations, setAllPopulations] = useState<AllPopulations>([]);
+  const [allPopulations, setAllPopulations] = useState<
+    AllPopulations<IndividualParams>
+  >([]);
   const handleClick = () => {
     setAllPopulations(start(settings));
   };
@@ -50,12 +56,12 @@ const App = () => {
     allPopulations.length - 1
   );
 
-  let data = allPopulations.map(generateData);
+  let chartData = allPopulations.map(generateData);
 
   return (
     <div className="App">
       <StartButton onClick={handleClick}>Перезапуск</StartButton>
-      <Chart paddingRight={4} data={data} />
+      <Chart paddingRight={4} data={chartData} />
       <Grid container spacing={1} columns={24}>
         <Grid xs={8}>
           {rowsData0 && (

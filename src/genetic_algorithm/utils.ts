@@ -25,20 +25,23 @@ const generateChromosome = (): Chromosome =>
 const createIndividualDNA = (n: number): Chromosome[] =>
   createArray(n, generateChromosome);
 
-// сформировать особь
-export type Individual = {
-  dna: Chromosome[];
+export type CommonParams = {
   adaptability: number;
 };
-export const formIndividual = (
-  settings: Settings,
+// сформировать особь
+export type Individual<T extends CommonParams = CommonParams> = {
+  dna: Chromosome[];
+  params: T;
+};
+export const formIndividual = <T extends CommonParams>(
+  settings: Settings<T>,
   dna: Chromosome[]
-): Individual => {
-  const adaptability = settings.individualAdaptability(dna);
-  return { dna, adaptability };
+): Individual<T> => {
+  const params = settings.setParams(dna);
+  return { dna, params };
 };
 // создать особь
-const createIndividual = (settings: Settings) => {
+const createIndividual = <T extends CommonParams>(settings: Settings<T>) => {
   const dna = createIndividualDNA(settings.n);
   return formIndividual(settings, dna);
 };
@@ -47,7 +50,7 @@ export const populate = curry((settings: Settings) =>
   createArray(settings.p, () => createIndividual(settings))
 );
 
-export const lifeCycle = (settings: Settings) =>
+export const lifeCycle = <T extends CommonParams>(settings: Settings<T>) =>
   pipe(
     crossoverPopulation(settings),
     mutatePopulation(settings),
