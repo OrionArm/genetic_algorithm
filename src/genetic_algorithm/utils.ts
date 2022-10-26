@@ -18,12 +18,6 @@ const createArray = <T extends () => any>(length: number, fn: T) =>
   Array.from(new Array(length), fn);
 
 export type Chromosome = 1 | -1;
-// создать хромосому
-const generateChromosome = (): Chromosome =>
-  Math.floor(Math.random() * 2) ? 1 : -1;
-// создать ДНК особь
-const createIndividualDNA = (n: number): Chromosome[] =>
-  createArray(n, generateChromosome);
 
 export type CommonParams = {
   adaptability: number;
@@ -33,6 +27,14 @@ export type Individual<T extends CommonParams = CommonParams> = {
   dna: Chromosome[];
   params: T;
 };
+// создать хромосому
+const generateChromosome = (): Chromosome =>
+  Math.floor(Math.random() * 2) ? 1 : -1;
+
+// создать ДНК особь
+const createIndividualDNA = (n: number): Chromosome[] =>
+  createArray(n, generateChromosome);
+
 export const formIndividual = <T extends CommonParams>(
   settings: Settings<T>,
   dna: Chromosome[]
@@ -50,7 +52,7 @@ export const populate = curry((settings: Settings) =>
   createArray(settings.p, () => createIndividual(settings))
 );
 
-export const lifeCycle = <T extends CommonParams>(settings: Settings<T>) =>
+export const lifeCycle = (settings: Settings) =>
   pipe(
     crossoverPopulation(settings),
     mutatePopulation(settings),

@@ -9,7 +9,7 @@ export type Settings<T extends CommonParams = CommonParams> = {
   wayOfFormingParentPairs: string; // способ формирования родительских пар
   selectionMethod: string; // способ селекция
   maxGeneration: number; // максимально допустимое число популяций
-  stopEvolution: (population: Individual[]) => boolean;
+  stopEvolution: (population: Individual<T>[]) => boolean;
   setParams: (dna: Chromosome[]) => T;
 };
 

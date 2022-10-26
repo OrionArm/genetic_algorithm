@@ -57,6 +57,6 @@ export const getAutocorrelationData = (dna: Chromosome[] = []) => {
 
 // Максимальный уровень боковых лепестков
 export const getPSL = (autocorrelationData: number[] = []) => {
-  const [_first, second] = autocorrelationData.sort().reverse();
+  const [_first, second] = [...autocorrelationData].sort().reverse();
   return second || 0;
 };

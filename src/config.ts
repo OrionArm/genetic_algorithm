@@ -6,18 +6,23 @@ import type {
   Settings,
 } from "./genetic_algorithm";
 
-export const getPopulationAdaptability = (population: Individual[] = []) =>
+export const getPopulationAdaptability = (
+  population: Individual<IndividualParams>[] = []
+) =>
   population.reduce(
     (acc, individual) => acc + individual.params.adaptability,
     0
   );
 
-const stopEvolution = (population: Individual[] = []) => {
-  const averageAdaptability =
-    population.length / getPopulationAdaptability(population);
-  if (averageAdaptability > 1) return true;
+export const getAveragePopulationAdaptability = (
+  population: Individual<IndividualParams>[] = []
+) => population.length / getPopulationAdaptability(population);
+
+const stopEvolution = (population: Individual<IndividualParams>[] = []) => {
+  if (getAveragePopulationAdaptability(population) >= 1) return true;
   return false;
 };
+
 export type IndividualParams = CommonParams & {
   autocorrelationData: number[];
   psl: number;
@@ -38,7 +43,7 @@ export const settings: Settings<IndividualParams> = {
   pm: 0.15, // вероятность мутации
   wayOfFormingParentPairs: "random", // способ формирования родительских пар
   selectionMethod: "tournament", // способ селекция
-  maxGeneration: 50, // максимально допустимое число популяций
+  maxGeneration: 100, // максимально допустимое число популяций
   stopEvolution,
   setParams,
 };

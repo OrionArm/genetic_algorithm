@@ -8,11 +8,11 @@ type Props = {
   paddingRight: number;
   data: { populationNumber: number; adaptability: number }[];
 };
-export const Chart = ({ paddingRight, data }: Props) => {
+export const FitnessChart = ({ paddingRight, data }: Props) => {
   const chartRef = useRef<am5xy.XYChart | null>(null);
 
   useLayoutEffect(() => {
-    let root = am5.Root.new("chartdiv");
+    let root = am5.Root.new("FitnessChart");
 
     root.setThemes([am5themes_Animated.new(root)]);
 
@@ -58,7 +58,6 @@ export const Chart = ({ paddingRight, data }: Props) => {
       am5xy.ValueAxis.new(root, {
         strictMinMax: true,
         min: 0,
-        max: 50,
         renderer: am5xy.AxisRendererX.new(root, {}),
         tooltip: am5.Tooltip.new(root, {}),
       })
@@ -104,5 +103,7 @@ export const Chart = ({ paddingRight, data }: Props) => {
     if (chartRef.current) chartRef.current.set("paddingRight", paddingRight);
   }, [paddingRight]);
 
-  return <div id="chartdiv" style={{ width: "100%", height: "500px" }}></div>;
+  return (
+    <div id="FitnessChart" style={{ width: "100%", height: "500px" }}></div>
+  );
 };

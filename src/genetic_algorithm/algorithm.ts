@@ -8,7 +8,7 @@ function algorithm<T extends CommonParams>(
   allPopulations: AllPopulations<T>
 ): AllPopulations<T> {
   const latPopulation = allPopulations[allPopulations.length - 1];
-  const nextPopulation = lifeCycle<T>(settings)(
+  const nextPopulation = lifeCycle(settings as unknown as Settings)(
     latPopulation || []
   ) as Individual<T>[];
   ++generation;
@@ -27,6 +27,8 @@ function algorithm<T extends CommonParams>(
 }
 
 export function start<T extends CommonParams>(settings: Settings<T>) {
-  const allPopulations: AllPopulations<T> = [populate(settings)];
+  const allPopulations: AllPopulations<T> = [
+    populate(settings as unknown as Settings),
+  ];
   return algorithm(settings, allPopulations);
 }

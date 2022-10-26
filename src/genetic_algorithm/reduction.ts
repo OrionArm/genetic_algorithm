@@ -4,7 +4,6 @@ import type { Individual } from "./utils";
 
 export const reductionPopulation = curry(
   (_settings: Settings, population: Individual[]) => {
-    // console.log("reduction", data);
     const sortedPopulation = population.sort(
       (individual1, individual2) =>
         individual1.params.adaptability - individual2.params.adaptability

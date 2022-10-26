@@ -3,20 +3,36 @@ import React, { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 
 import "./App.css";
-import { Chart } from "./components/chart";
+import { FitnessChart } from "./components/fitness_chart";
 import { TablePopulation } from "./components/table_population";
 import { start, Individual } from "./genetic_algorithm";
 import type { AllPopulations } from "./genetic_algorithm/algorithm";
 import {
-  getPopulationAdaptability,
+  getAveragePopulationAdaptability,
   IndividualParams,
   settings,
 } from "./config";
+import { AKFChart } from "./components/akf_chart";
 
-const generateData = (population: Individual[], populationNumber: number) => ({
+const generateData = (
+  population: Individual<IndividualParams>[],
+  populationNumber: number
+) => ({
   populationNumber,
-  adaptability: getPopulationAdaptability(population),
+  adaptability: getAveragePopulationAdaptability(population),
 });
+
+const byBestPopulation = (
+  population1: Individual<IndividualParams>[],
+  population2: Individual<IndividualParams>[]
+) =>
+  getAveragePopulationAdaptability(population2) -
+  getAveragePopulationAdaptability(population1);
+
+const byBestIndividual = (
+  population1: Individual<IndividualParams>,
+  population2: Individual<IndividualParams>
+) => population2.params.adaptability - population1.params.adaptability;
 
 const getPopulationData = (
   allPopulations: AllPopulations<IndividualParams>,
@@ -56,12 +72,24 @@ const App = () => {
     allPopulations.length - 1
   );
 
-  let chartData = allPopulations.map(generateData);
+  const fitnessFromGenerationNumberData = allPopulations.map(generateData);
+  const bestPopulationDataList = [...allPopulations].sort(byBestPopulation);
+  const bestPopulation = bestPopulationDataList[0];
+  const bestIndividualDataList =
+    bestPopulation && [...bestPopulation].sort(byBestIndividual);
+  const bestIndividual = bestIndividualDataList && bestIndividualDataList[0];
+  const AKFChartData =
+    bestIndividual &&
+    bestIndividual.params.autocorrelationData.map((value, index) => ({
+      value,
+      index,
+    }));
 
   return (
     <div className="App">
       <StartButton onClick={handleClick}>Перезапуск</StartButton>
-      <Chart paddingRight={4} data={chartData} />
+      <FitnessChart paddingRight={4} data={fitnessFromGenerationNumberData} />
+      {AKFChartData && <AKFChart paddingRight={4} data={AKFChartData} />}
       <Grid container spacing={1} columns={24}>
         <Grid xs={8}>
           {rowsData0 && (
